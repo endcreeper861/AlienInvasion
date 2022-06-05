@@ -31,14 +31,19 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.ship.update()
-            self.bullets.update()
-
-            # 删除消失的子弹
-            for bullet in self.bullets.copy():
-                if bullet.rect.bottom <= 0:
-                    self.bullets.remove(bullet)
-
+            self._update_bullets()
             self._update_screen()
+            self._fire_bullet()
+
+    def _update_bullets(self):
+        """更新子弹的位置并删除消失的子弹。"""
+        # 更新子弹的位置
+        self.bullets.update()
+
+        # 删除消失的子弹
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
 
     def _check_events(self):
         """响应鼠标和键盘事件。"""
@@ -70,8 +75,9 @@ class AlienInvasion:
 
     def _fire_bullet(self):
         """创建一颗子弹，并将其加入到编组bullets中。"""
-        new_bullet = Bullet(self)
-        self.bullets.add(new_bullet)
+        if len(self.bullets) < self.settings.bullets_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
 
     def _update_screen(self):
         """更新屏幕上的图象，并切换到新屏幕。"""

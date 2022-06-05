@@ -14,7 +14,7 @@ class Bullet(Sprite):
         self.color = self.settings.bullet_color
 
         # 自身的速度为设置中的速度加上偏移量
-        self.speed = self.settings.bullet_speed + random.random() - 0.5
+        self.speed = self.settings.bullet_speed + (random.random()-0.5) / 2
         print(self.speed)
 
         # 在(0, 0)处创建一个表示子弹的矩形，再设置正确的位置
@@ -24,7 +24,7 @@ class Bullet(Sprite):
 
         # 存储用小数表示的子弹位置
         self.y = float(self.rect.y)
-    
+
     def update(self):
         """向上移动子弹。"""
         # 更新表示子弹位置的小数值
