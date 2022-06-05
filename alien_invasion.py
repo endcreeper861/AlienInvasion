@@ -20,6 +20,10 @@ class AlienInvasion:
 
         self.ship = Ship(self)
 
+    def exit(self):
+        """退出游戏。"""
+        sys.exit()
+
     def run_game(self):
         """开始游戏的主循环。"""
         while True:
@@ -36,21 +40,30 @@ class AlienInvasion:
         self.ship.blitme()
 
     def _check_events(self):
-        """响应鼠标和键盘事件"""
+        """响应鼠标和键盘事件。"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
+                self.exit()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
-                    self.ship.moving_right = True
-                elif event.key == pygame.K_LEFT:
-                    self.ship.moving_left = True
-            
+                self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_RIGHT:
-                    self.ship.moving_right = False    
-                elif event.key == pygame.K_LEFT:
-                    self.ship.moving_left = False        
+                self._check_keyup_events(event)
+
+    def _check_keydown_events(self, event):
+        """响应按键。"""
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = True
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = True
+        elif event.key == pygame.K_q:
+            self.exit()
+
+    def _check_keyup_events(self, event):
+        """响应松开。"""
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = False
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = False
 
 
 if __name__ == "__main__":
