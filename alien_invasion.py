@@ -5,6 +5,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 
 class AlienInvasion:
@@ -21,6 +22,9 @@ class AlienInvasion:
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
 
     def exit(self):
         """退出游戏。"""
@@ -78,6 +82,19 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+
+    def _create_fleet(self):
+        """创建外星人群。"""
+        # 创建一个外星人，并计算一行可容纳多少个外星人
+        # 外星人间距为外星人宽度
+        alien = Alien(self)
+        alien_width = alien.rect.width
+        available_space_x = self.settings.screen_width - (2 * alien_width)
+        number_aliens_x = available_space_x // (2 * alien_width)
+
+        # 创建第一行外星人
+        for alien_number in range(number_aliens_x):
+            pass
 
     def _update_screen(self):
         """更新屏幕上的图象，并切换到新屏幕。"""
